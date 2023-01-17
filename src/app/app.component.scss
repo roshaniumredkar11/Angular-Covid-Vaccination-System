@@ -1,0 +1,48 @@
+.body{
+    background-image: url(../assets/Image/111.png);
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    position: fixed;
+    background-position: center;
+}
+.top-gap{
+margin-top: 20px;
+}
+
+.float-right{
+    float: right;
+}
+float-left{
+  margin-left: 60%;
+}
+
+.col-lg-3 ol{
+  opacity: 0.8;
+}
+
+.slide-right {
+  width: 100%;
+  overflow: hidden;
+  margin-left: 500px;
+  max-width: 700px
+}
+
+.slide-right h1 {
+  animation: 3s slide-right;
+  animation-delay: 2s;
+}
+
+@keyframes slide-right {
+   from {
+      margin-left: -500px;
+   }
+
+   to {
+      margin-left: 0%;
+   }
+}
+
+.alert {
+  margin-top: 80%;
+}

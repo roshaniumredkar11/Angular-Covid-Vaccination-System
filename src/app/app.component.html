@@ -1,0 +1,162 @@
+<div class="body">
+  <div class="row">
+    <div class="col-lg-12 top-gap text-center text-bold">
+      <div class="slide-right">
+        <h1>Covid Vaccination Management</h1>
+        {{date |date:'dd/mm/yyyy hh:mm a'}}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 text-center top-gap">
+
+    </div>
+
+  </div>
+
+  <div class="row top-gap">
+    <div class="col-lg-3">
+      <h4 class="text-center text-light">Candidate List <button type="button" class="btn  ms-2 "
+          (click)="openModal(template,'add')">
+          <i class='fas fa-user-plus' style='font-size:24px;color:black'></i>
+        </button></h4>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item list-group-item-action list-group-item-danger"
+          *ngFor="let candidate of candidateList;let i=index"><img src="../assets/Image/pic1.jpg"
+            class="rounded-circle me-3" alt="Cinque Terre" width="50" height="50">{{candidate.name | titlecase }} -
+          <span class="badge"
+            [ngClass]="candidate.status=='Available' ? 'bg-success' : 'bg-secondary' ">{{candidate.status}}</span>
+
+          <button class="btn btn-primary float-right ms-2" (click)="v1Done(i)">Dose-1</button>
+          <button class="btn float-right" (click)="cDelete(i)"><i class='fas fa-trash-alt'
+              style="font-size:20px;color:red"></i></button>
+          <button class="btn float-right" (click)="openModal(edittemplate,i)"><i class='fas fa-edit'
+              style="font-size:20px;color:black"></i></button>
+        </li>
+
+
+      </ol>
+    </div>
+
+    <div class="col-lg-3">
+      <h4 class="text-center text-light">Dose 1 Candidate </h4>
+      <ol class="list-group list-group-numbered top-gap">
+        <li class="list-group-item list-group-item-action list-group-item-warning"
+          *ngFor="let candidate of v1Candidate;let i=index"><img src="../assets/Image/pic1.jpg"
+            class="rounded-circle me-3" alt="Cinque Terre" width="50" height="50">{{candidate.name}}
+          <button class="btn btn-primary float-right ms-2" (click)="v2Done(i)">Dose-2</button>
+          <button class="btn  float-right" (click)="cBack(i)"><i class='fas fa-undo'
+              style='font-size:24px;color:black'></i></button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="col-lg-3">
+      <h4 class="text-center text-light">Dose 2 Candidate </h4>
+      <ol class="list-group list-group-numbered top-gap">
+        <li class="list-group-item list-group-item-action list-group-item-success"
+          *ngFor="let candidate of v2Candidate;let i=index"><img src="../assets/Image/pic1.jpg"
+            class="rounded-circle me-3" alt="Cinque Terre" width="50" height="50">{{candidate.name}}
+          <button class="btn btn-primary float-right ms-2" (click)="BDone(i)"> Dose-B</button>
+          <button class="btn  float-right" (click)="v1Back(i)"><i class='fas fa-undo'
+              style='font-size:24px;color:black'></i></button>
+        </li>
+      </ol>
+      <div class="alert alert-success alert-dismissible" *ngIf="showMassege==true">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Success!</strong> Candidate added successfully.
+      </div>
+    </div>
+
+
+    <div class="col-lg-3">
+      <h4 class="text-center text-light">Booster Dose Candidate </h4>
+      <ol class="list-group list-group-numbered top-gap">
+        <li class="list-group-item list-group-item-action list-group-item-secondary"
+          *ngFor="let candidate of BCandidate;let i=index"><img src="../assets/Image/pic1.jpg"
+            class="rounded-circle me-3" alt="Cinque Terre" width="50" height="50">{{candidate.name}}
+          <button class="btn float-right" (click)="v2Back(i)"><i class='fas fa-undo'
+              style='font-size:24px;color:black'></i></button>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add New Candidate</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <label for="name" class="form-label">Name:</label>
+    <input type="text" class="form-control" placeholder="Enter Candidate name" [(ngModel)]=" candidateName">
+  </div>
+  <div class="modal-body">
+    <label for="age" class="form-label">Age:</label>
+    <input type="number" class="form-control" placeholder="Enter Candidate Age" [(ngModel)]=" candidateAge">
+  </div>
+  <div class="modal-body">
+    <label for="phone" class="form-label">Phone:</label>
+    <input type="number" class="form-control" placeholder="Enter Candidate phone" [(ngModel)]=" candidatePhone">
+  </div>
+  <div class="modal-body">
+    <label for="status" class="form-label">Status:</label>
+    <input type="text" class="form-control" placeholder="Enter Candidate status" [(ngModel)]=" candidatestatus">
+  </div>
+
+  <div class="modal-body">
+    <label for="phone" class="form-label">Gender:</label><br>
+      <input type="radio" id="Male" name="gender" value="Male" [(ngModel)]="candidateGender">Male
+      <input type="radio" id="Female" name="gender" value="Female" [(ngModel)]="candidateGender">Female
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modalRef?.hide()">Close</button>
+    <button type="submit" class="btn btn-primary" [disabled]="candidateName==''" (click)="submit()">Submit</button>
+
+  </div>
+</ng-template>
+
+<ng-template #edittemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit New Candidate</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <label for="email" class="form-label">Name:</label>
+    <input type="text" class="form-control" placeholder="Enter Candidate name" [(ngModel)]=" candidateName">
+  </div>
+  <div class="modal-body">
+    <label for="age" class="form-label">Age:</label>
+    <input type="number" class="form-control" placeholder="Enter Candidate Age" [(ngModel)]=" candidateAge">
+  </div>
+  <div class="modal-body">
+    <label for="phone" class="form-label">Phone:</label>
+    <input type="number" class="form-control" placeholder="Enter Candidate phone" [(ngModel)]=" candidatePhone">
+  </div>
+  <div class="modal-body">
+    <label for="status" class="form-label">Status:</label>
+    <input type="text" class="form-control" placeholder="Enter Candidate status" [(ngModel)]=" candidatestatus">
+  </div>
+  <div class="modal-body">
+    <label for="phone" class="form-label">Gender:</label><br>
+      <input type="radio" id="Male" name="gender" value="Male" [(ngModel)]="candidateGender">Male
+      <input type="radio" id="Female" name="gender" value="Female" [(ngModel)]="candidateGender">Female
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="close()">Close</button>
+    <button type="submit" class="btn btn-success" (click)="update()">Update</button>
+
+  </div>
+</ng-template>
